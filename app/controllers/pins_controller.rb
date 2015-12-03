@@ -9,14 +9,14 @@ class PinsController < ApplicationController
   end
 
   def new
-    @pin = Pin.new
+    @pin = current_user.pins.build
   end
 
   def edit
   end
 
   def create
-    @pin = Pin.new(pin_params)
+    @pin = current_user.pins.build(pin_params)
 
     if @pin.save
       redirect_to @pin, notice: 'Pin was successfully created.'
@@ -48,5 +48,11 @@ class PinsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def pin_params
       params.require(:pin).permit(:description)
+    end
+end
+
+Class PinsController < ActieRecord::Base
+    def show
+        @pin = Pin.find params[:id] #-> or Pin.first
     end
 end
